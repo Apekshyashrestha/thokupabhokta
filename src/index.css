@@ -1,0 +1,7 @@
+/* Reset handled in global.css — keep index minimal */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fcfdf8;
+}

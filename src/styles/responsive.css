@@ -1,0 +1,101 @@
+/* Global responsive helpers — mobile-first polishing */
+:root { --content-max: 1180px; }
+
+/* Prevent horizontal scroll */
+html, body { overflow-x: hidden; }
+
+/* CEo grid */
+.ceo-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 0;
+  background: #fff;
+  border: 1px solid #eef2f7;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+}
+.ceo-grid-main { padding: 28px 24px; }
+.ceo-grid-side {
+  background: linear-gradient(180deg,#f0fdf4,#f8fafc);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border-left: 1px solid #eef2f7;
+  text-align: center;
+}
+
+/* Events grid */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.events-grid-card { min-width: 0; }
+
+/* Modal grid */
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+/* About grids */
+.about-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.members-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.members-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+
+/* Contact / catalog already in products.css, but ensure overflow */
+.catalog-page-layout, .about-wrap, .contact-wrap, .reports-wrap { overflow-wrap: break-word; word-break: break-word; }
+
+/* Footer responsive */
+@media (max-width: 900px) {
+  .ceo-grid { grid-template-columns: 1fr; }
+  .ceo-grid-side { border-left: none; border-top: 1px solid #eef2f7; padding: 20px 16px; }
+  .events-grid { grid-template-columns: repeat(2,1fr); }
+  .modal-grid { grid-template-columns: 1fr; }
+  .modal-grid > div:first-child { border-right: none !important; border-bottom: 1px solid #eef2f7; }
+  .about-grid-2 { grid-template-columns: 1fr; }
+  .members-grid-4 { grid-template-columns: repeat(2,1fr); }
+  .members-grid-3 { grid-template-columns: 1fr 1fr; }
+  .site-footer .footer-content { grid-template-columns: 1fr !important; gap: 28px !important; }
+}
+
+@media (max-width: 640px) {
+  .ceo-grid-main { padding: 20px 16px; }
+  .ceo-grid-main p { font-size: 13px !important; line-height: 1.7 !important; }
+  .events-grid { grid-template-columns: 1fr; }
+  .members-grid-4, .members-grid-3 { grid-template-columns: 1fr; }
+  .page-banner { height: 180px !important; }
+  .page-banner-content h2 { font-size: 22px !important; }
+  .page-banner-content p { font-size: 11px !important; padding: 5px 10px !important; }
+  /* Make tables scrollable */
+  .reports-card, .table-content { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .reports-table { min-width: 560px; }
+  /* Hero actions full width */
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn-primary, .hero-actions .btn-ghost { width: 100%; }
+  /* Product modal becomes bottom-sheet on mobile */
+  .modal-grid { align-items: start; }
+}
+
+@media (max-width: 640px) {
+  /* Bottom sheet product modal */
+  div[style*="zIndex: 2000"] > div[style*="maxWidth: 980"] {
+    max-height: 92vh !important;
+    border-radius: 18px 18px 0 0 !important;
+    align-self: flex-end;
+    margin-top: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .ceo-grid-side div[style*="width: 180"] { width: 140px !important; height: 140px !important; }
+  .section-eyebrow { font-size: 10px; letter-spacing: 0.1em; padding: 5px 10px; }
+}
