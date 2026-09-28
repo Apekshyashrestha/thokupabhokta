@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { ALL_PRODUCTS } from "../data/productsData";
+import { ALL_PRODUCTS as STATIC_PRODUCTS } from "../data/productsData";
+import { useFirestoreCollection } from "../hooks/useFirestore";
 import ProductDetailModal from "./ProductDetailModal";
 
 export default function HomeProductSlider({ setActiveTab }) {
+  const { data: ALL_PRODUCTS } = useFirestoreCollection("products", STATIC_PRODUCTS);
   const [selected, setSelected] = useState(null);
   const featured = ALL_PRODUCTS.slice(0, 6);
 

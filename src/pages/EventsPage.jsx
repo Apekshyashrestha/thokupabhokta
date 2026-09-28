@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { ALL_EVENTS } from "../data/eventsData";
+import { ALL_EVENTS as STATIC_EVENTS } from "../data/eventsData";
+import { useFirestoreCollection } from "../hooks/useFirestore";
 
 export default function EventsPage() {
+  const { data: ALL_EVENTS } = useFirestoreCollection("events", STATIC_EVENTS, "id");
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState("");
 
-  const filtered = ALL_EVENTS.filter((e) => e.title.toLowerCase().includes(filter.toLowerCase()) || e.excerpt.toLowerCase().includes(filter.toLowerCase()));
+  const filtered = ALL_EVENTS.filter((e) => (e.title||"").toLowerCase().includes(filter.toLowerCase()) || (e.excerpt||"").toLowerCase().includes(filter.toLowerCase()));
 
   return (
     <div>

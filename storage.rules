@@ -1,0 +1,29 @@
+rules_version = '2';
+
+// Thok Upabhokta — Storage rules for project thokupabhokta
+// Deploy:  firebase deploy --only storage
+// Prerequisite: Firebase Console → Storage → Get started (enable Storage first)
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email in [
+             'admin@thokupabhokta.com',
+             'office@thokupabhokta.com'
+           ];
+    }
+
+    // Images/PDFs must load on the public website, so reads are open.
+    // Uploads are staff-only and capped at 5 MB.
+    match /uploads/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

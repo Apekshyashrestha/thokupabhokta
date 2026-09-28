@@ -1,0 +1,53 @@
+rules_version = '2';
+
+// Thok Upabhokta — Firestore rules for project thokupabhokta
+// Deploy:  firebase deploy --only firestore:rules
+// 1) Firebase Console → Authentication → Sign-in method → enable "Email/Password"
+// 2) Authentication → Users → Add user (office staff accounts)
+// 3) Add every staff email below (client-side admin panel reads VITE_FIREBASE_ADMIN_EMAILS)
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email in [
+             'admin@thokupabhokta.com',
+             'office@thokupabhokta.com'
+           ];
+    }
+
+    // Website reads these publicly. Only signed-in staff may write.
+    match /products/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /events/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /reports/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Anyone may submit an enquiry (public contact + product forms),
+    // but only staff may read, mark or delete them.
+    match /enquiries/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /siteInfo/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Lock down everything else, including stray test collections.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

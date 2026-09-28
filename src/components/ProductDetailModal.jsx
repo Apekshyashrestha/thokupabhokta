@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { SITE_INFO } from "../data/siteData";
+import { db, isConfigured } from "../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function ProductDetailModal({ product, onClose, related = [] }) {
   const [activeImg, setActiveImg] = useState(0);
@@ -14,17 +16,37 @@ export default function ProductDetailModal({ product, onClose, related = [] }) {
     return `Namaste ${SITE_INFO.name} 🙏\n\nI would like to enquire about:\n• Product: ${product.title}\n• Category: ${product.category}\n• Specs: ${product.specs}\n\nMy details:\nName: ${form.name || "-"}\nPhone: ${form.phone || "-"}\nCooperative/Organization: ${form.coop || "-"}\nQuantity needed: ${form.qty || "-"}\nMessage: ${form.message || "-"}\n\nPlease advise wholesale price, availability & delivery via member cooperatives.\nThank you!`;
   };
 
-  const handleWhatsApp = () => {
+  const saveEnquiry = async (via) => {
+    if (!isConfigured) return;
+    try {
+      await addDoc(collection(db, "enquiries"), {
+        productId: product.id,
+        productTitle: product.title,
+        category: product.category,
+        name: form.name.trim(),
+        phone: form.phone.trim(),
+        coop: form.coop.trim(),
+        qty: form.qty.trim(),
+        message: form.message.trim(),
+        via,
+        createdAt: serverTimestamp(),
+      });
+    } catch (e) { console.warn("enquiry save failed", e); }
+  };
+
+  const handleWhatsApp = async () => {
     if (!form.name.trim() || !form.phone.trim()) { alert("Please enter your name and phone."); return; }
+    await saveEnquiry("whatsapp");
     const text = encodeURIComponent(buildEnquiryText());
-    const waNumber = SITE_INFO.altPhone.replace(/\D/g, ""); // 9814099804
+    const waNumber = SITE_INFO.altPhone.replace(/\D/g, "");
     window.open(`https://wa.me/977${waNumber}?text=${text}`, "_blank");
     setSent(true);
     setTimeout(() => setSent(false), 3000);
   };
 
-  const handleEmail = () => {
+  const handleEmail = async () => {
     if (!form.name.trim() || !form.phone.trim()) { alert("Please enter your name and phone."); return; }
+    await saveEnquiry("email");
     const subject = encodeURIComponent(`Enquiry: ${product.title} via Cooperatives`);
     const body = encodeURIComponent(buildEnquiryText());
     window.location.href = `mailto:${SITE_INFO.email}?subject=${subject}&body=${body}`;

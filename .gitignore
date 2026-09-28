@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Local secrets and environment config (never commit these)
+.env
+.env.*
+!.env.example
+.firebase/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

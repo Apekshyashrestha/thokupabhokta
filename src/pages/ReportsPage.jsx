@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { REPORTS, SITE_INFO } from "../data/siteData";
+import { REPORTS as STATIC_REPORTS, SITE_INFO } from "../data/siteData";
+import { useFirestoreCollection } from "../hooks/useFirestore";
 
 export default function ReportsPage() {
+  const { data: REPORTS } = useFirestoreCollection("reports", STATIC_REPORTS, "id");
   const [downloading, setDownloading] = useState(null);
   const [toast, setToast] = useState("");
 

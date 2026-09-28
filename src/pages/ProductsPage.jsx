@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { ALL_PRODUCTS, CATEGORIES } from "../data/productsData";
+import { ALL_PRODUCTS as STATIC_PRODUCTS, CATEGORIES } from "../data/productsData";
+import { useFirestoreCollection } from "../hooks/useFirestore";
 import ProductDetailModal from "../components/ProductDetailModal";
 import productBannerImg from "../assets/product-picture.jpg";
 
 export default function ProductsPage() {
+  const { data: ALL_PRODUCTS, loading } = useFirestoreCollection("products", STATIC_PRODUCTS);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -32,7 +34,7 @@ export default function ProductsPage() {
         <div className="page-banner-overlay" />
         <div className="page-banner-content">
           <h2>Products</h2>
-          <p>Home / Products — {filteredProducts.length} items</p>
+          <p>Home / Products — {loading ? "loading…" : `${filteredProducts.length} items`}</p>
         </div>
       </div>
 
