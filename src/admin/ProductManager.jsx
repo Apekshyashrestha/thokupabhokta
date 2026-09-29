@@ -1,25 +1,26 @@
 import { useMemo, useState } from "react";
-import { CATEGORIES } from "../data/productsData";
+import { useContent } from "../content/useContent";
 import { useAdminCollection } from "../hooks/useAdminCollection";
 import { SelectField, TextArea, TextField } from "./Field";
 import MediaField from "./MediaField";
 import { describeWriteError, fromTags, nextNumericId, removeDocument, saveDocument, toTags } from "./adminUtils";
 
-const EMPTY = {
+const emptyProduct = (category) => ({
   title: "",
-  category: CATEGORIES[0],
+  category: category || "",
   shortDesc: "",
   specs: "",
   description: "",
   tags: "",
   image: "",
   gallery: [],
-};
+});
 
 export default function ProductManager() {
+  const { categories } = useContent();
   const { rows, loading, error } = useAdminCollection("products");
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState(EMPTY);
+  const [form, setForm] = useState(() => emptyProduct());
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -41,7 +42,7 @@ export default function ProductManager() {
   }, [sorted, search]);
 
   const startNew = () => {
-    setForm(EMPTY);
+    setForm(emptyProduct(categories[0]));
     setEditing("new");
     setStatus(null);
   };
@@ -49,7 +50,7 @@ export default function ProductManager() {
   const startEdit = (row) => {
     setForm({
       title: row.title || "",
-      category: row.category || CATEGORIES[0],
+      category: row.category || categories[0] || "",
       shortDesc: row.shortDesc || "",
       specs: row.specs || "",
       description: row.description || "",
@@ -114,7 +115,7 @@ export default function ProductManager() {
 
         <div className="adm-grid-2">
           <TextField label="Title" required value={form.title} onChange={set("title")} />
-          <SelectField label="Category" required value={form.category} onChange={set("category")} options={CATEGORIES} />
+          <SelectField label="Category" required value={form.category} onChange={set("category")} options={categories} />
         </div>
 
         <TextField

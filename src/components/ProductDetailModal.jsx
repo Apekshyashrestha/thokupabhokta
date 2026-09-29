@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { SITE_INFO } from "../data/siteData";
+import { useContent } from "../content/useContent";
 import { db, isConfigured } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function ProductDetailModal({ product, onClose, related = [] }) {
+  const { siteInfo } = useContent();
   const [activeImg, setActiveImg] = useState(0);
   const [showEnquiry, setShowEnquiry] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", coop: "", qty: "", message: "" });
@@ -13,7 +14,7 @@ export default function ProductDetailModal({ product, onClose, related = [] }) {
   const gallery = product.gallery && product.gallery.length ? product.gallery : [product.image];
 
   const buildEnquiryText = () => {
-    return `Namaste ${SITE_INFO.name} 🙏\n\nI would like to enquire about:\n• Product: ${product.title}\n• Category: ${product.category}\n• Specs: ${product.specs}\n\nMy details:\nName: ${form.name || "-"}\nPhone: ${form.phone || "-"}\nCooperative/Organization: ${form.coop || "-"}\nQuantity needed: ${form.qty || "-"}\nMessage: ${form.message || "-"}\n\nPlease advise wholesale price, availability & delivery via member cooperatives.\nThank you!`;
+    return `Namaste ${siteInfo.name} 🙏\n\nI would like to enquire about:\n• Product: ${product.title}\n• Category: ${product.category}\n• Specs: ${product.specs}\n\nMy details:\nName: ${form.name || "-"}\nPhone: ${form.phone || "-"}\nCooperative/Organization: ${form.coop || "-"}\nQuantity needed: ${form.qty || "-"}\nMessage: ${form.message || "-"}\n\nPlease advise wholesale price, availability & delivery via member cooperatives.\nThank you!`;
   };
 
   const saveEnquiry = async (via) => {
@@ -38,7 +39,7 @@ export default function ProductDetailModal({ product, onClose, related = [] }) {
     if (!form.name.trim() || !form.phone.trim()) { alert("Please enter your name and phone."); return; }
     await saveEnquiry("whatsapp");
     const text = encodeURIComponent(buildEnquiryText());
-    const waNumber = SITE_INFO.altPhone.replace(/\D/g, "");
+    const waNumber = siteInfo.altPhone.replace(/\D/g, "");
     window.open(`https://wa.me/977${waNumber}?text=${text}`, "_blank");
     setSent(true);
     setTimeout(() => setSent(false), 3000);
@@ -49,13 +50,13 @@ export default function ProductDetailModal({ product, onClose, related = [] }) {
     await saveEnquiry("email");
     const subject = encodeURIComponent(`Enquiry: ${product.title} via Cooperatives`);
     const body = encodeURIComponent(buildEnquiryText());
-    window.location.href = `mailto:${SITE_INFO.email}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${siteInfo.email}?subject=${subject}&body=${body}`;
     setSent(true);
     setTimeout(() => setSent(false), 3000);
   };
 
   const handleCall = () => {
-    window.location.href = `tel:${SITE_INFO.altPhone}`;
+    window.location.href = `tel:${siteInfo.altPhone}`;
   };
 
   return (
@@ -79,7 +80,7 @@ export default function ProductDetailModal({ product, onClose, related = [] }) {
             <div style={{ marginTop: 14, background: '#fff', border: '1px solid #eef2f7', borderRadius: 12, padding: '10px 12px', display: 'flex', gap: 10, alignItems: 'center' }}>
               <span style={{ width: 32, height: 32, borderRadius: 8, background: '#f0fdf4', border: '1px solid #dcfce7', display: 'grid', placeItems: 'center', fontSize: 14 }}>🏬</span>
               <div style={{ fontSize: 11, lineHeight: 1.4 }}>
-                <strong style={{ color: '#0f172a' }}>Wholesale via cooperatives</strong><span style={{ display: 'block', color: '#64748b' }}>{SITE_INFO.address} • {SITE_INFO.phone} • {SITE_INFO.altPhone}</span>
+                <strong style={{ color: '#0f172a' }}>Wholesale via cooperatives</strong><span style={{ display: 'block', color: '#64748b' }}>{siteInfo.address} • {siteInfo.phone} • {siteInfo.altPhone}</span>
               </div>
             </div>
           </div>
@@ -130,7 +131,7 @@ export default function ProductDetailModal({ product, onClose, related = [] }) {
                   <button onClick={handleCall} style={{ padding: '11px 8px', borderRadius: 999, background: '#fff', border: '1px solid #e2e8f0', fontWeight: 800, fontSize: 12, color: '#0f172a' }}>📞 Call</button>
                 </div>
 
-                <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 8, textAlign: 'center' }}>WhatsApp → {SITE_INFO.altPhone} • Email → {SITE_INFO.email} • No login needed</p>
+                <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 8, textAlign: 'center' }}>WhatsApp → {siteInfo.altPhone} • Email → {siteInfo.email} • No login needed</p>
 
                 {sent && (
                   <div style={{ marginTop: 10, padding: '10px 12px', borderRadius: 10, background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#14532d', fontSize: 12, fontWeight: 700, textAlign: 'center' }}>
@@ -142,7 +143,7 @@ export default function ProductDetailModal({ product, onClose, related = [] }) {
 
             <div style={{ marginTop: 14, display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
               <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`} target="_blank" rel="noreferrer" style={{ fontSize: 11, fontWeight: 700, padding: '7px 10px', borderRadius: 999, background: '#f1f5f9', border: '1px solid #e2e8f0', color: '#0f172a' }}>Share Facebook</a>
-              <span style={{ fontSize: 11, color: '#94a3b8' }}>• Wholesale at Damak-9, Jhapa • Est. {SITE_INFO.establishedDate}</span>
+              <span style={{ fontSize: 11, color: '#94a3b8' }}>• Wholesale at Damak-9, Jhapa • Est. {siteInfo.establishedDate}</span>
             </div>
           </div>
         </div>

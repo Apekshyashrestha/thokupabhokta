@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { REPORTS as STATIC_REPORTS, SITE_INFO } from "../data/siteData";
+import { REPORTS as STATIC_REPORTS } from "../data/siteData";
+import { useContent } from "../content/useContent";
 import { useFirestoreCollection } from "../hooks/useFirestore";
 
 export default function ReportsPage() {
+  const { siteInfo } = useContent();
   const { data: REPORTS } = useFirestoreCollection("reports", STATIC_REPORTS, "id");
   const [downloading, setDownloading] = useState(null);
   const [toast, setToast] = useState("");
@@ -43,7 +45,7 @@ export default function ReportsPage() {
           <div>
             <span className="section-eyebrow">Transparency & Accountability</span>
             <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 22, fontWeight: 800, color: '#052e16', marginTop: 8 }}>Annual & Audit Reports</h3>
-            <p style={{ fontSize: 12, color: '#64748b', marginTop: 4, maxWidth: 560 }}>Official AGM and audit documents of {SITE_INFO.name} — published for member cooperatives. All files are PDF and hosted on the union’s archive.</p>
+            <p style={{ fontSize: 12, color: '#64748b', marginTop: 4, maxWidth: 560 }}>Official AGM and audit documents of {siteInfo.name} — published for member cooperatives. All files are PDF and hosted on the union’s archive.</p>
           </div>
           <span style={{ fontSize: 12, fontWeight: 800, background: '#052e16', color: '#fff', padding: '8px 14px', borderRadius: 999 }}>{REPORTS.length} documents • PDF</span>
         </div>
@@ -125,9 +127,9 @@ export default function ReportsPage() {
         <div style={{ marginTop: 14, background: '#fff', border: '1px solid #eef2f7', borderRadius: 14, padding: '12px 14px', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
           <span style={{ width: 32, height: 32, borderRadius: 8, background: '#f0fdf4', border: '1px solid #dcfce7', display: 'grid', placeItems: 'center' }}>ℹ️</span>
           <p style={{ fontSize: 12, color: '#475569', lineHeight: 1.5, flex: 1 }}>
-            Files are hosted at <strong style={{ color: '#0f172a' }}>thokupabhokta.coop.np/uploads/reports/</strong> — same as the official site. If a PDF doesn’t open, right-click Download → Save Link As, or contact <strong>{SITE_INFO.email}</strong> / {SITE_INFO.phone}.
+            Files are hosted at <strong style={{ color: '#0f172a' }}>thokupabhokta.coop.np/uploads/reports/</strong> — same as the official site. If a PDF doesn’t open, right-click Download → Save Link As, or contact <strong>{siteInfo.email}</strong> / {siteInfo.phone}.
           </p>
-          <a href={`mailto:${SITE_INFO.email}?subject=Request%20for%20Reports`} style={{ padding: '8px 14px', borderRadius: 999, background: '#0f172a', color: '#fff', fontWeight: 800, fontSize: 12 }}>Request via Email</a>
+          <a href={`mailto:${siteInfo.email}?subject=Request%20for%20Reports`} style={{ padding: '8px 14px', borderRadius: 999, background: '#0f172a', color: '#fff', fontWeight: 800, fontSize: 12 }}>Request via Email</a>
         </div>
       </div>
 

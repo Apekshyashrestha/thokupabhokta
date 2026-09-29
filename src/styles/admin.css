@@ -511,6 +511,119 @@
   border-top: 1px solid var(--border);
 }
 
+/* Site content manager */
+.adm-tabs-wrap {
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.adm-tab-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-500, #16a34a);
+  display: inline-block;
+}
+
+.adm-blurb {
+  font-size: 13px;
+  color: var(--text-500);
+  line-height: 1.6;
+  margin: 0 0 16px;
+  max-width: 720px;
+}
+
+.adm-group {
+  padding: 4px 0 18px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.adm-group:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.adm-group-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-500);
+  margin: 0 0 14px;
+}
+
+.adm-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.adm-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-3);
+}
+
+.adm-row-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  flex: 1;
+}
+
+.adm-row-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.adm-icon-btn {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-700);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.adm-icon-btn:hover:not(:disabled) {
+  background: var(--surface-3);
+  border-color: var(--brand-500, #16a34a);
+}
+
+.adm-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.adm-icon-btn-danger:hover:not(:disabled) {
+  color: var(--danger-600, #dc2626);
+  border-color: var(--danger-500, #ef4444);
+}
+
+@media (max-width: 720px) {
+  .adm-row {
+    flex-direction: column;
+  }
+
+  .adm-row-actions {
+    align-self: flex-end;
+  }
+}
+
 /* Media */
 .adm-media-grid {
   display: flex;

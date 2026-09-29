@@ -1,18 +1,19 @@
-import React from "react";
-import { SITE_INFO } from "../data/siteData";
+import { useContent } from "../content/useContent";
 
 export default function TopHeader({ setActiveTab }) {
+  const { siteInfo } = useContent();
+
   return (
     <div className="top-bar">
       {/* Contact Info (Left Side) */}
       <div className="top-bar-left">
         <span className="top-info-item">
           <span className="icon">📞</span>
-          {SITE_INFO.phone}
+          {siteInfo.phone}
         </span>
         <span className="top-info-item">
           <span className="icon">✉️</span>
-          {SITE_INFO.email}
+          {siteInfo.email}
         </span>
       </div>
 

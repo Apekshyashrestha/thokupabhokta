@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { SITE_INFO } from "../data/siteData";
-import { CEO_MESSAGE } from "../data/eventsData";
-import { SANCHALAK_SAMITI, LEKHA_SAMITI, STAFF, VISION, MEMBER_COOPS } from "../data/membersData";
+import { useContent } from "../content/useContent";
 
 export default function AboutPage() {
+  const { siteInfo, ceo, vision, committees, staff, memberCoops } = useContent();
+  const sanchalak = committees.sanchalak;
+  const lekha = committees.lekha;
   const [tab, setTab] = useState("about");
 
   return (
@@ -31,8 +32,8 @@ export default function AboutPage() {
       {tab === 'about' && (
         <div className="about-wrap">
           <span className="section-eyebrow">Who we are</span>
-          <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 26, fontWeight: 800, color: '#052e16', marginTop: 12 }}>{SITE_INFO.name}</h2>
-          <p style={{ color: '#64748b', fontSize: 13, marginTop: 6 }}>{SITE_INFO.englishName} — Est. {SITE_INFO.establishedDate} • Reg. No. {SITE_INFO.regNo} • {SITE_INFO.regOffice}</p>
+          <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 26, fontWeight: 800, color: '#052e16', marginTop: 12 }}>{siteInfo.name}</h2>
+          <p style={{ color: '#64748b', fontSize: 13, marginTop: 6 }}>{siteInfo.englishName} — Est. {siteInfo.establishedDate} • Reg. No. {siteInfo.regNo} • {siteInfo.regOffice}</p>
 
           <div className="about-grid" style={{ marginTop: 18 }}>
             <div className="about-card">
@@ -45,7 +46,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="about-facts">
-              <div className="fact"><div className="fact-icon">🏛️</div><div><strong>Reg. Office</strong><span style={{ display: 'block' }}>{SITE_INFO.regOffice}</span></div></div>
+              <div className="fact"><div className="fact-icon">🏛️</div><div><strong>Reg. Office</strong><span style={{ display: 'block' }}>{siteInfo.regOffice}</span></div></div>
               <div className="fact"><div className="fact-icon">📍</div><div><strong>Head Office</strong><span style={{ display: 'block' }}>Damak-9, Jhapa</span></div></div>
               <div className="fact"><div className="fact-icon">📦</div><div><strong>Products</strong><span style={{ display: 'block' }}>Tea, Honey, Mustard Oil, Handicrafts, Agro Tools</span></div></div>
               <div className="fact"><div className="fact-icon">🤝</div><div><strong>Network</strong><span style={{ display: 'block' }}>Cooperatives across Koshi Province</span></div></div>
@@ -55,17 +56,17 @@ export default function AboutPage() {
           <div style={{ marginTop: 18, display: 'grid', gap: 14 }}>
             <div className="about-card">
               <h3>पृष्ठभूमि</h3>
-              <p style={{ marginTop: 8, lineHeight: 1.9, wordBreak: 'break-word' }}>{VISION.prishthabhumi}</p>
+              <p style={{ marginTop: 8, lineHeight: 1.9, wordBreak: 'break-word' }}>{vision.prishthabhumi}</p>
             </div>
             <div className="about-grid-2">
               <div className="about-card" style={{ background: 'linear-gradient(180deg,#f0fdf4,#fff)' }}>
                 <h3>परिकल्पना</h3>
-                <p style={{ marginTop: 8, fontWeight: 700, color: '#14532d', lineHeight: 1.7 }}>• {VISION.parikalpana}</p>
+                <p style={{ marginTop: 8, fontWeight: 700, color: '#14532d', lineHeight: 1.7 }}>• {vision.parikalpana}</p>
               </div>
               <div className="about-card">
                 <h3>ध्येय</h3>
                 <ul style={{ marginTop: 8, paddingLeft: 18, display: 'grid', gap: 6, fontSize: 13, color: '#334155', lineHeight: 1.6 }}>
-                  {VISION.dhyeya.map((d, i) => <li key={i}>{d}</li>)}
+                  {vision.dhyeya.map((d, i) => <li key={i}>{d}</li>)}
                 </ul>
               </div>
             </div>
@@ -79,14 +80,14 @@ export default function AboutPage() {
             <div className="ceo-grid-main">
               <span className="section-eyebrow">Leadership</span>
               <h3 style={{ fontSize: 20, fontWeight: 800, color: '#052e16', marginTop: 10 }}>Message from CEO</h3>
-              <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.75, marginTop: 12, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{CEO_MESSAGE.message}</p>
+              <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.75, marginTop: 12, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{ceo.message}</p>
             </div>
             <div className="ceo-grid-side">
               <div style={{ width: 160, height: 160, borderRadius: '50%', overflow: 'hidden', border: '4px solid #fff', boxShadow: '0 12px 32px rgba(0,0,0,0.12)', flexShrink: 0 }}>
-                <img src={CEO_MESSAGE.image} alt={CEO_MESSAGE.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={ceo.image} alt={ceo.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
-              <h4 style={{ marginTop: 12, fontWeight: 800 }}>{CEO_MESSAGE.name}</h4>
-              <span style={{ fontSize: 11, fontWeight: 700, background: '#fff', border: '1px solid #dcfce7', color: '#16a34a', padding: '4px 10px', borderRadius: 999 }}>{CEO_MESSAGE.role}</span>
+              <h4 style={{ marginTop: 12, fontWeight: 800 }}>{ceo.name}</h4>
+              <span style={{ fontSize: 11, fontWeight: 700, background: '#fff', border: '1px solid #dcfce7', color: '#16a34a', padding: '4px 10px', borderRadius: 999 }}>{ceo.role}</span>
             </div>
           </div>
         </div>
@@ -96,7 +97,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: 1180, margin: '0 auto', padding: '18px 20px 40px' }}>
           <h3 style={{ fontSize: 16, fontWeight: 800, color: '#052e16', marginBottom: 12 }}>सञ्चालक समिति</h3>
           <div className="members-grid-4">
-            {SANCHALAK_SAMITI.map((m, i) => (
+            {sanchalak.map((m, i) => (
               <div key={i} style={{ background: '#fff', border: '1px solid #eef2f7', borderRadius: 16, overflow: 'hidden', textAlign: 'center', paddingBottom: 14 }}>
                 <div style={{ height: 120, background: 'linear-gradient(180deg,#f0fdf4,#f8fafc)', display: 'grid', placeItems: 'center', fontSize: 32 }}>👤</div>
                 <div style={{ fontSize: 13, fontWeight: 800, color: '#0f172a', marginTop: 10, padding: '0 8px', wordBreak: 'break-word' }}>{m.name}</div>
@@ -107,7 +108,7 @@ export default function AboutPage() {
           </div>
           <h3 style={{ fontSize: 16, fontWeight: 800, color: '#052e16', margin: '18px 0 12px' }}>लेखा समिति</h3>
           <div className="members-grid-3">
-            {LEKHA_SAMITI.map((m, i) => (
+            {lekha.map((m, i) => (
               <div key={i} style={{ background: '#fff', border: '1px solid #eef2f7', borderRadius: 16, overflow: 'hidden', textAlign: 'center', paddingBottom: 14 }}>
                 <div style={{ height: 120, background: '#f8fafc', display: 'grid', placeItems: 'center', fontSize: 32 }}>👤</div>
                 <div style={{ fontSize: 13, fontWeight: 800, color: '#0f172a', marginTop: 10, wordBreak: 'break-word' }}>{m.name}</div>
@@ -123,7 +124,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: 1180, margin: '0 auto', padding: '18px 20px 40px' }}>
           <h3 style={{ fontSize: 16, fontWeight: 800, color: '#052e16', marginBottom: 12 }}>कर्मचारी संरचना</h3>
           <div className="members-grid-3">
-            {STAFF.map((s, i) => (
+            {staff.map((s, i) => (
               <div key={i} style={{ background: '#fff', border: '1px solid #eef2f7', borderRadius: 16, overflow: 'hidden', textAlign: 'center', paddingBottom: 16 }}>
                 <div style={{ height: 140, background: 'linear-gradient(180deg,#f0fdf4,#fff)', display: 'grid', placeItems: 'center', fontSize: 36 }}>👔</div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', marginTop: 10 }}>{s.name}</div>
@@ -138,13 +139,13 @@ export default function AboutPage() {
       {tab === 'coops' && (
         <div style={{ maxWidth: 1180, margin: '0 auto', padding: '18px 20px 40px' }}>
           <h3 style={{ fontSize: 16, fontWeight: 800, color: '#052e16' }}>सदस्य संस्थाहरु</h3>
-          <p style={{ fontSize: 12, color: '#64748b', marginTop: 4 }}>{MEMBER_COOPS.length}+ member cooperatives across Jhapa & Morang</p>
+          <p style={{ fontSize: 12, color: '#64748b', marginTop: 4 }}>{memberCoops.length}+ member cooperatives across Jhapa & Morang</p>
           <div style={{ marginTop: 14, background: '#fff', border: '1px solid #eef2f7', borderRadius: 16, overflow: 'hidden' }}>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
                 <thead><tr style={{ background: '#052e16', color: '#fff', textAlign: 'left' }}><th style={{ padding: '12px 14px' }}>SN</th><th style={{ padding: '12px 14px' }}>Name</th><th style={{ padding: '12px 14px' }}>Address</th><th style={{ padding: '12px 14px' }}>Contact</th><th style={{ padding: '12px 14px' }}>Representative</th></tr></thead>
                 <tbody>
-                  {MEMBER_COOPS.map((r) => (
+                  {memberCoops.map((r) => (
                     <tr key={r.sn} style={{ borderBottom: '1px solid #f1f5f9' }}>
                       <td style={{ padding: '10px 14px', fontWeight: 700 }}>{r.sn}</td>
                       <td style={{ padding: '10px 14px', fontWeight: 700, color: '#14532d' }}>{r.name}</td>

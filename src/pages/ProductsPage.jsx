@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { ALL_PRODUCTS as STATIC_PRODUCTS, CATEGORIES } from "../data/productsData";
+import { ALL_PRODUCTS as STATIC_PRODUCTS } from "../data/productsData";
+import { useContent } from "../content/useContent";
 import { useFirestoreCollection } from "../hooks/useFirestore";
 import ProductDetailModal from "../components/ProductDetailModal";
 import productBannerImg from "../assets/product-picture.jpg";
 
 export default function ProductsPage() {
+  const { categories } = useContent();
   const { data: ALL_PRODUCTS, loading } = useFirestoreCollection("products", STATIC_PRODUCTS);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -42,7 +44,7 @@ export default function ProductsPage() {
       <div style={{ maxWidth: 1180, margin: '14px auto 0', padding: '0 14px' }} className="mobile-filter-chips-wrap">
         <div className="mobile-filter-chips">
           <button onClick={clearAll} className={`chip ${selectedCategories.length === 0 ? 'active' : ''}`}>All ({ALL_PRODUCTS.length})</button>
-          {CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
@@ -63,7 +65,7 @@ export default function ProductsPage() {
 
           <h3 className="sidebar-heading">Filter by Category</h3>
           <div className="category-checkbox-list">
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <label key={cat} className="checkbox-label">
                 <input type="checkbox" checked={selectedCategories.includes(cat)} onChange={() => handleCategoryChange(cat)} />
                 <span style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{cat}</span>

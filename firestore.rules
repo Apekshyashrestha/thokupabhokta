@@ -44,6 +44,13 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // Editable site copy (CEO message, footer, ticker, committees, staff,
+    // vision, member cooperatives, product categories).
+    match /content/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     // Lock down everything else, including stray test collections.
     match /{document=**} {
       allow read, write: if false;

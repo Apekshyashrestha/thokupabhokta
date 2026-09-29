@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { SITE_INFO } from "../data/siteData";
+import { useContent } from "../content/useContent";
 import { db, isConfigured } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function ContactPage() {
+  const { siteInfo } = useContent();
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState("");
   const handleSend = async () => {
@@ -16,7 +17,7 @@ export default function ContactPage() {
       } else {
         // fallback: open mailto
         const body = encodeURIComponent(`Name: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\n\n${form.message}`);
-        window.location.href = `mailto:${SITE_INFO.email}?subject=Contact%20Enquiry&body=${body}`;
+        window.location.href = `mailto:${siteInfo.email}?subject=Contact%20Enquiry&body=${body}`;
         setStatus("Opening email client (Firebase not configured)...");
       }
       setForm({ name: "", email: "", phone: "", message: "" });
@@ -42,19 +43,19 @@ export default function ContactPage() {
             <h3>Reach us directly</h3>
             <div className="contact-row">
               <div className="contact-row-icon">📍</div>
-              <div><b>Address</b><p>{SITE_INFO.address} — {SITE_INFO.regOffice}</p></div>
+              <div><b>Address</b><p>{siteInfo.address} — {siteInfo.regOffice}</p></div>
             </div>
             <div className="contact-row">
               <div className="contact-row-icon">📞</div>
-              <div><b>Phone</b><p>{SITE_INFO.phone} / {SITE_INFO.altPhone}</p></div>
+              <div><b>Phone</b><p>{siteInfo.phone} / {siteInfo.altPhone}</p></div>
             </div>
             <div className="contact-row">
               <div className="contact-row-icon">✉️</div>
-              <div><b>Email</b><p>{SITE_INFO.email}</p></div>
+              <div><b>Email</b><p>{siteInfo.email}</p></div>
             </div>
             <div className="contact-row">
               <div className="contact-row-icon">🌐</div>
-              <div><b>Web & Registration</b><p>{SITE_INFO.web} • Reg No: {SITE_INFO.regNo} • Est. {SITE_INFO.establishedDate}</p></div>
+              <div><b>Web & Registration</b><p>{siteInfo.web} • Reg No: {siteInfo.regNo} • Est. {siteInfo.establishedDate}</p></div>
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SITE_INFO } from "../data/siteData";
+import { useContent } from "../content/useContent";
 import productpictureImg from "../assets/product-picture.jpg";
 import HomeProductSlider from "../components/HomeProductSlider";
 import CeoMessageSection from "../components/CeoMessageSection";
@@ -25,6 +25,7 @@ const HERO_SLIDES = [
 ];
 
 export default function HomePage({ setActiveTab }) {
+  const { siteInfo } = useContent();
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export default function HomePage({ setActiveTab }) {
                 Wholesale for <em>Cooperatives,</em><br /> Growth for Communities
               </h1>
               <p className="hero-sub">
-                {SITE_INFO.englishName} — supplying quality tea, honey, mustard oil &amp; authentic handicrafts across Province 1 through the cooperative network.
+                {siteInfo.englishName} — supplying quality tea, honey, mustard oil &amp; authentic handicrafts across Province 1 through the cooperative network.
               </p>
               <div className="hero-actions">
                 <button className="btn-primary" onClick={() => setActiveTab("products")}>Explore Products →</button>
@@ -104,14 +105,14 @@ export default function HomePage({ setActiveTab }) {
               <span style={{ width: 38, height: 38, borderRadius: 10, background: '#f0fdf4', border: '1px solid #dcfce7', display: 'grid', placeItems: 'center' }}>🏬</span>
               <div>
                 <strong>Damak-9, Jhapa</strong>
-                <span style={{ display: 'block', fontSize: 11, color: '#64748b' }}>{SITE_INFO.regOffice}</span>
+                <span style={{ display: 'block', fontSize: 11, color: '#64748b' }}>{siteInfo.regOffice}</span>
               </div>
             </div>
           </div>
 
           <div className="welcome-text">
             <span className="section-eyebrow">Welcome to our Union</span>
-            <h2>Welcome To <br /><span>{SITE_INFO.name}</span></h2>
+            <h2>Welcome To <br /><span>{siteInfo.name}</span></h2>
             <p>
               कोशी प्रदेश कार्यक्षेत्र रहेको यस थोक उपभोक्ता विशिष्टिकृत सहकारी संघ लि सहकारी ऐन २०७४ बमोजिम प्रदेश नं १ भर कार्यक्षेत्र रहने गरी समाग्रीहरु थोक आपुर्ति गर्ने, गुणस्तरीय समान आपुर्ति गर्ने विभिन्न उपभोग्य समाग्रीहरु उत्पादन गर्ने र विभिन्न उपभोग्य सामाग्री सर्व सुलभ रुपमा सहकारी मार्फत उपभोक्ताहरु माझ पुर्‍याउनका लागि मिती २०७८ अषाढ ९ मा प्रदेश नं १ सहकारी रजिष्ट्रार कार्यालय ईटहरीमा दर्ता भई स्थापित भएको हो । यसको मुख्य कार्यालय दमक नगरपालिका वडा नं ९ दमकमा रही हाल यसले स्टेशनरीका केहि सामाग्रीहरु, चियाका विभिन्न प्रकारका उत्पादनहरु, मौरीको मह, ताेरीकाे तेल लगायतका सामानहरु विन्नि सहकारी संस्थाहरु मर्फत उपभोक्तामा पुर्‍यानका लागि थोक आपुर्ति गर्न शुरु गरीसकेको छ ।
             </p>

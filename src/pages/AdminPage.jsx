@@ -7,12 +7,14 @@ import ProductManager from "../admin/ProductManager";
 import EventManager from "../admin/EventManager";
 import ReportManager from "../admin/ReportManager";
 import EnquiryInbox from "../admin/EnquiryInbox";
+import ContentManager from "../admin/ContentManager";
 
 const SECTIONS = [
   { key: "products", label: "Products", icon: "🛍️" },
   { key: "events", label: "Events", icon: "📅" },
   { key: "reports", label: "Reports", icon: "📄" },
   { key: "enquiries", label: "Enquiries", icon: "✉️" },
+  { key: "content", label: "Site Content", icon: "⚙️" },
 ];
 
 function LoginScreen({ onSignIn, signingIn, error }) {
@@ -170,6 +172,7 @@ export default function AdminPage() {
           {section === "events" && <EventManager />}
           {section === "reports" && <ReportManager />}
           {section === "enquiries" && <EnquiryInbox />}
+          {section === "content" && <ContentManager />}
         </div>
       </div>
     </div>

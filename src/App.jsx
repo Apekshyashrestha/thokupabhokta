@@ -24,6 +24,7 @@ import ReportsPage from "./pages/ReportsPage";
 import NoticePage from "./pages/NoticePage";
 import EventsPage from "./pages/EventsPage";
 import CareerPage from "./pages/CareerPage";
+import { ContentProvider } from "./content/ContentProvider";
 
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 
@@ -41,9 +42,11 @@ export default function App() {
 
   if (adminRoute) {
     return (
-      <Suspense fallback={<div className="adm-center"><p className="adm-hint">Loading admin panel...</p></div>}>
-        <AdminPage />
-      </Suspense>
+      <ContentProvider>
+        <Suspense fallback={<div className="adm-center"><p className="adm-hint">Loading admin panel...</p></div>}>
+          <AdminPage />
+        </Suspense>
+      </ContentProvider>
     );
   }
 
@@ -69,15 +72,17 @@ export default function App() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <TopHeader setActiveTab={setActiveTab} />
-      <MainHeader activeTab={activeTab} setActiveTab={setActiveTab} />
-      <TickerBar />
-      <main style={{ flex: 1 }}>{renderPage()}</main>
-      <div style={{ maxWidth: 1180, margin: "12px auto 0", padding: "0 20px", display: "flex", justifyContent: "flex-end" }}>
-        <FirebaseStatus />
+    <ContentProvider>
+      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <TopHeader setActiveTab={setActiveTab} />
+        <MainHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TickerBar />
+        <main style={{ flex: 1 }}>{renderPage()}</main>
+        <div style={{ maxWidth: 1180, margin: "12px auto 0", padding: "0 20px", display: "flex", justifyContent: "flex-end" }}>
+          <FirebaseStatus />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ContentProvider>
   );
 }
